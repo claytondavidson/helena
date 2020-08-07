@@ -1,0 +1,14 @@
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Application.deps.json
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Application.dll
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Application.pdb
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Domain.dll
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Persistence.dll
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Domain.pdb
+/home/ragefire/Downloads/helena/Application/bin/Debug/netcoreapp3.1/Persistence.pdb
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.csprojAssemblyReference.cache
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.AssemblyInfoInputs.cache
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.AssemblyInfo.cs
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.csproj.CoreCompileInputs.cache
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.csproj.CopyComplete
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.dll
+/home/ragefire/Downloads/helena/Application/obj/Debug/netcoreapp3.1/Application.pdb
