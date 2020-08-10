@@ -28,14 +28,15 @@ namespace Application.Groups
             {
                 var group = await _context.Groups.FindAsync(request.Id);
 
-                if (group == null) throw new RestException(HttpStatusCode.NotFound, new {activity = "Not found"});
+                if (group == null) throw new RestException(HttpStatusCode.NotFound, new {Group = "Not found"});
 
                 _context.Remove(group);
-                var success = await _context.SaveChangesAsync() > 0;
+                
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 
-                throw new Exception("Problem saving activity changes");
+                throw new Exception("Problem saving group changes");
             }
         }
     }

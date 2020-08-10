@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Infrastructure.Security
@@ -31,7 +32,10 @@ namespace Infrastructure.Security
             var groupId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
                 .SingleOrDefault(x => x.Key == "id").Value.ToString()!);
 
-            var group = _context.Groups.FindAsync(groupId).Result;
+            var group = _context.Groups.Include(g => g.GroupMembers)
+                .ThenInclude(gm => gm.AppUser)
+                .FirstOrDefaultAsync(g => g.Id == groupId)
+                .Result;
 
             var owner = group?.GroupMembers?.FirstOrDefault(x => x.IsOwner);
 

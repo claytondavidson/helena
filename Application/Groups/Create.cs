@@ -57,10 +57,10 @@ namespace Application.Groups
                     CoverPhoto = request.CoverPhoto
                 };
 
-                _context.Groups.Add(group);
+                await _context.Groups.AddAsync(group, cancellationToken);
 
                 var user = await _context.Users.SingleOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetCurrentUsername());
+                    x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
                 var groupMember = new GroupMember
                 {
@@ -70,13 +70,13 @@ namespace Application.Groups
                     DateJoined = DateTime.Now
                 };
 
-                _context.GroupMembers.Add(groupMember);
+                await _context.GroupMembers.AddAsync(groupMember, cancellationToken);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 
-                throw new Exception("Problem saving activity changes");
+                throw new Exception("Problem saving group changes");
             }
         }
     }

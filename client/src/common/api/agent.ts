@@ -108,6 +108,8 @@ const Comments = {
     ),
   create: (postId: string, commentFormValues: CommentFormValues) =>
     requests.post(`/comments/${postId}/comment`, commentFormValues),
+  reply: (commentId: string, commentFormValues: CommentFormValues) =>
+      requests.post(`comments/${commentId}/reply`, commentFormValues),
 };
 
 export default {

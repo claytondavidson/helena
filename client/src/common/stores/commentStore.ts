@@ -27,6 +27,9 @@ export default class CommentStore {
 
   @observable
   page = 0;
+  
+  @observable
+  isOpen = false;
 
   @observable
   submitting = false;
@@ -43,6 +46,10 @@ export default class CommentStore {
   @computed
   get comments() {
     return Array.from(this.commentRegistry.values());
+  }
+  
+  @action setReplyBoxOpen = (isOpen: boolean) => {
+    this.isOpen = isOpen;
   }
 
   @action
@@ -88,6 +95,24 @@ export default class CommentStore {
       });
     } catch (error) {
       runInAction("creating comment error", () => {
+        this.submitting = false;
+      });
+      toast.error("Problem submitting data");
+      console.log(error);
+    }
+  };
+
+  @action
+  createReply = async (commentId: string, reply: CommentFormValues) => {
+    this.submitting = true;
+    try {
+      await agent.Comments.create(commentId, reply);
+      runInAction("creating reply to comment", () => {
+        this.commentRegistry.set(reply.id, reply);
+        this.submitting = false;
+      });
+    } catch (error) {
+      runInAction("creating reply to comment error", () => {
         this.submitting = false;
       });
       toast.error("Problem submitting data");

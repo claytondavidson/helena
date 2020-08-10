@@ -33,14 +33,14 @@ namespace Application.Groups
             {
                 var group = await _context.Groups.FindAsync(request.Id);
 
-                if (group == null) throw new RestException(HttpStatusCode.NotFound, new {group = "Not found"});
-
+                if (group == null) throw new RestException(HttpStatusCode.NotFound, new {Group = "Not found"});
+                
                 group.Title = request.Title ?? group.Title;
                 group.Description = request.Description ?? group.Description;
                 group.Category = request.Category ?? group.Category;
                 group.CoverPhoto = request.CoverPhoto ?? group.CoverPhoto;
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 

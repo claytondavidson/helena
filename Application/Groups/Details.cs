@@ -33,13 +33,12 @@ namespace Application.Groups
             {
                 var group = await _context.Groups
                     .Include(g => g.GroupMembers)
+                    .ThenInclude(gm => gm.AppUser)
                     .FirstOrDefaultAsync(g => g.Id == request.Id, cancellationToken);
 
-                if (group == null) throw new RestException(HttpStatusCode.NotFound, new {group = "Not found"});
+                if (group == null) throw new RestException(HttpStatusCode.NotFound, new {Group = "Not found"});
 
-                var groupToReturn = _mapper.Map<Group, GroupDto>(group);
-
-                return groupToReturn;
+                return _mapper.Map<GroupDto>(group);
             }
         }
     }

@@ -56,9 +56,9 @@ namespace Application.Groups
                     DateJoined = DateTime.Now
                 };
 
-                _context.GroupMembers.Add(membership);
+                await _context.GroupMembers.AddAsync(membership, cancellationToken);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 
