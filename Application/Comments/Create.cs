@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -58,7 +59,7 @@ namespace Application.Comments
 
                 if (success) return Unit.Value;
 
-                throw new Exception("Problem saving post changes");
+                throw new Exception("Problem saving comment changes");
             }
         }
     }

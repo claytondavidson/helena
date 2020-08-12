@@ -27,9 +27,6 @@ export default class CommentStore {
 
   @observable
   page = 0;
-  
-  @observable
-  isOpen = false;
 
   @observable
   submitting = false;
@@ -46,10 +43,6 @@ export default class CommentStore {
   @computed
   get comments() {
     return Array.from(this.commentRegistry.values());
-  }
-  
-  @action setReplyBoxOpen = (isOpen: boolean) => {
-    this.isOpen = isOpen;
   }
 
   @action

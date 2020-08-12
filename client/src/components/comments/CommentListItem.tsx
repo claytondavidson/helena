@@ -1,14 +1,18 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Comment, Icon } from "semantic-ui-react";
 import { IComment } from "../../common/models/comment";
 import { Link } from "react-router-dom";
 import { RootStoreContext } from "../../common/stores/rootStore";
 import { formatDistance } from "date-fns";
+import ReplyToCommentBox from "./ReplyToCommentBox";
 
 const CommentListItem: React.FC<{
   comment: IComment;
 }> = ({ comment }) => {
+  const rootStore = useContext(RootStoreContext);
+  const [openReplyBox, setOpenReplyBox] = useState(false);
+  
   const nestedComments = (comment.children || []).map((comment) => {
     return <CommentListItem key={comment.id} comment={comment} />;
   });
@@ -26,9 +30,10 @@ const CommentListItem: React.FC<{
           </Comment.Metadata>
           <Comment.Text>{comment.body}</Comment.Text>
           <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
+            <Comment.Action onClick={() => setOpenReplyBox(!openReplyBox)}>Reply</Comment.Action>
             <Comment.Action><Icon name={"ellipsis horizontal"}></Icon></Comment.Action>
           </Comment.Actions>
+          {openReplyBox ? <ReplyToCommentBox comm={comment}/> : <Fragment />}
         </Comment.Content>
         {nestedComments}
       </Comment>

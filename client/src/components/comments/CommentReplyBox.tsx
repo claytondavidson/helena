@@ -21,7 +21,7 @@ const CommentReplyBox: React.FC<{ post: IPost }> = ({ post }) => {
     if (!comment.id) {
       let newComment = {
         ...comment,
-        id: uuid(),
+          id: uuid(),
           createdAt: new Date(),
           username: user!.username,
           displayName: user!.displayName,
