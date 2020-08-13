@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { IGroupsEnvelope } from "../models/group";
 import { IProfile } from "../models/profile";
 import { IPostsEnvelope } from "../models/post";
-import { CommentFormValues, ICommentsEnvelope } from "../../common/models/comment";
+import { ICommentsEnvelope } from "../../common/models/comment";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -98,18 +98,19 @@ const Posts = {
 const Comments = {
   list: (
     post_id: string,
+    sort: string,
     limit?: number,
     page?: number
   ): Promise<ICommentsEnvelope> =>
     requests.get(
-      `comments/${post_id}/comments?limit=${limit}&offset=${
+      `comments/${post_id}/comments?sort=${sort}&limit=${limit}&offset=${
         page ? page * limit! : 0
       }`
     ),
-  create: (postId: string, commentFormValues: CommentFormValues) =>
-    requests.post(`/comments/${postId}/comment`, commentFormValues),
-  reply: (commentId: string, commentFormValues: CommentFormValues) =>
-      requests.post(`comments/${commentId}/reply`, commentFormValues),
+  create: (postId: string, body: string) =>
+    requests.post(`/comments/${postId}/comment`, body),
+  reply: (commentId: string, body: string) =>
+    requests.post(`comments/${commentId}/reply`, body),
 };
 
 export default {

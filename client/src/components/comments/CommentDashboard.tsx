@@ -16,6 +16,7 @@ const CommentDashboard: React.FC<IProps> = ({ post_id }) => {
     page,
     totalPages,
     clearComments,
+    sort,
   } = rootStore.commentStore;
   const { clearPosts } = rootStore.postStore;
   const [loadingNext, setLoadingNext] = useState(false);
@@ -32,7 +33,7 @@ const CommentDashboard: React.FC<IProps> = ({ post_id }) => {
       clearComments().catch(console.error);
       clearPosts().catch(console.error);
     };
-  }, [loadComments, post_id, clearComments, clearPosts]);
+  }, [loadComments, post_id, clearComments, clearPosts, sort]);
 
   return (
     <Fragment>

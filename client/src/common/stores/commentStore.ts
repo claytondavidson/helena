@@ -1,6 +1,6 @@
 import { RootStore } from "./rootStore";
 import { action, computed, observable, runInAction } from "mobx";
-import { CommentFormValues, IComment } from "../models/comment";
+import { IComment } from "../models/comment";
 import agent from "../api/agent";
 import { toast } from "react-toastify";
 
@@ -31,6 +31,9 @@ export default class CommentStore {
   @observable
   submitting = false;
 
+  @observable
+  sort = "newest";
+
   @computed
   get totalPages() {
     return Math.ceil(this.commentCount / LIMIT);
@@ -45,12 +48,17 @@ export default class CommentStore {
     return Array.from(this.commentRegistry.values());
   }
 
+  @action setSortType = (sort: string) => {
+    this.sort = sort;
+  };
+
   @action
   loadComments = async (post_id: string) => {
     this.initialLoading = true;
     try {
       const commentsEnvelope = await agent.Comments.list(
         post_id,
+        this.sort,
         LIMIT,
         this.page
       );
@@ -78,10 +86,10 @@ export default class CommentStore {
   };
 
   @action
-  createComment = async (postId: string, comment: CommentFormValues) => {
+  createComment = async (postId: string, body: string) => {
     this.submitting = true;
     try {
-      await agent.Comments.create(postId, comment);
+      const comment = await agent.Comments.create(postId, body);
       runInAction("creating comment", () => {
         this.commentRegistry.set(comment.id, comment);
         this.submitting = false;
@@ -96,12 +104,14 @@ export default class CommentStore {
   };
 
   @action
-  createReply = async (commentId: string, reply: CommentFormValues) => {
+  createReply = async (commentId: string, body: string) => {
     this.submitting = true;
     try {
-      await agent.Comments.create(commentId, reply);
+      const reply = await agent.Comments.reply(commentId, body);
       runInAction("creating reply to comment", () => {
         this.commentRegistry.set(reply.id, reply);
+        const comment = this.getComment(commentId);
+        comment.children.push(reply);
         this.submitting = false;
       });
     } catch (error) {
@@ -111,5 +121,9 @@ export default class CommentStore {
       toast.error("Problem submitting data");
       console.log(error);
     }
+  };
+
+  getComment = (id: string) => {
+    return this.commentRegistry.get(id);
   };
 }

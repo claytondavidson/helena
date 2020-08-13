@@ -1,9 +1,11 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -20,15 +22,17 @@ namespace Application.Comments
 
         public class Query : IRequest<CommentsEnvelope>
         {
-            public Query(int? limit, int? offset)
+            public Query(int? limit, int? offset, string? sort)
             {
                 Limit = limit;
                 Offset = offset;
+                Sort = sort;
             }
 
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public Guid Id { get; set; }
+            public string? Sort { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, CommentsEnvelope>
@@ -44,7 +48,13 @@ namespace Application.Comments
 
             public async Task<CommentsEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var comments = _context.Comments;
+                IQueryable<Comment> comments = _context.Comments;
+                comments = request.Sort switch
+                {
+                    "oldest" => comments.OrderBy(c => c.CreatedAt),
+                    "newest" => comments.OrderByDescending(c => c.CreatedAt),
+                    _ => comments
+                };
 
                 return new CommentsEnvelope
                 {
@@ -56,7 +66,8 @@ namespace Application.Comments
                         .Include(c => c.Children)
                         .Skip(request.Offset ?? 0)
                         .Take(request.Limit ?? 3)
-                        .ToListAsync(cancellationToken))
+                        .ToListAsync(cancellationToken)
+                    )
                 };
             }
         }

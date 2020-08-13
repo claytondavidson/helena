@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -12,7 +13,7 @@ namespace Application.Comments
 {
     public class Reply
     {
-        public class Command : IRequest
+        public class Command : IRequest<CommentDto>
         {
             public Guid Id { get; set; }
             public string Body { get; set; }
@@ -26,25 +27,27 @@ namespace Application.Comments
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, CommentDto>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper)
             {
                 _context = context;
                 _userAccessor = userAccessor;
+                _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CommentDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 var comment = await _context.Comments
                     .Include(c => c.Post)
                     .Include(c => c.Children)
                     .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
-                var user = await _context.Users.SingleOrDefaultAsync(x =>
+                var user = await _context.Users.Include(u => u.Photos).SingleOrDefaultAsync(x =>
                     x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
                 var post = comment.Post;
@@ -62,7 +65,7 @@ namespace Application.Comments
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                if (success) return Unit.Value;
+                if (success) return _mapper.Map<CommentDto>(newComment);
 
                 throw new Exception("Problem saving post changes");
             }

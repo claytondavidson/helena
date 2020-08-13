@@ -6,7 +6,6 @@ import { observer } from "mobx-react-lite";
 import TextAreaInput from "../../common/form/TextAreaInput";
 import { CommentFormValues } from "../../common/models/comment";
 import { IPost } from "../../common/models/post";
-import { v4 as uuid } from "uuid";
 import { Link } from "react-router-dom";
 
 const CommentReplyBox: React.FC<{ post: IPost }> = ({ post }) => {
@@ -21,11 +20,6 @@ const CommentReplyBox: React.FC<{ post: IPost }> = ({ post }) => {
     if (!comment.id) {
       let newComment = {
         ...comment,
-          id: uuid(),
-          createdAt: new Date(),
-          username: user!.username,
-          displayName: user!.displayName,
-          image: user!.image
       };
       createComment(post.id, newComment);
     }
@@ -33,7 +27,10 @@ const CommentReplyBox: React.FC<{ post: IPost }> = ({ post }) => {
 
   return (
     <Segment clearing>
-        <Header style={{fontSize: 11, marginBottom: 3}}>Comment as <Link to={`/profile/${user!.username}`}>{user!.displayName}</Link></Header>
+      <Header style={{ fontSize: 11, marginBottom: 3 }}>
+        Comment as{" "}
+        <Link to={`/profile/${user!.username}`}>{user!.displayName}</Link>
+      </Header>
       <FinalForm
         onSubmit={handleCommentFormSubmit}
         render={({ handleSubmit, invalid, pristine, form }) => (
