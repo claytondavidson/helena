@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Application.Comments;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -23,6 +24,14 @@ namespace API.Controllers
 
         [HttpPost("{id}/reply")]
         public async Task<ActionResult<CommentDto>> Reply(Reply.Command command, Guid id)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
+        
+        [HttpPut("{id}")]
+        [Authorize(Policy = "IsCommentAuthor")]
+        public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
             command.Id = id;
             return await Mediator.Send(command);

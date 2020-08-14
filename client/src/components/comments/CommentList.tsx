@@ -46,7 +46,7 @@ const CommentList: React.FC = () => {
             {/* eslint-disable-next-line array-callback-return */}
             {comments.map((comment) => {
               if (comment.parentId === "00000000-0000-0000-0000-000000000000")
-                return <CommentListItem key={comment.id} comment={comment} />;
+                return <CommentListItem key={comment.id} comment={comment}/>;
             })}
           </Comment.Group>
         </Item>

@@ -56,18 +56,20 @@ namespace Application.Comments
                     _ => comments
                 };
 
+                var commentsList = _mapper.Map<List<CommentDto>>(await comments
+                    .Where(c => c.Post.Id == request.Id)
+                    .Include(c => c.Author)
+                    .ThenInclude(a => a.Photos)
+                    .Include(c => c.Children)
+                    .Skip(request.Offset ?? 0)
+                    .Take(request.Limit ?? 3)
+                    .ToListAsync(cancellationToken)
+                );
+
                 return new CommentsEnvelope
                 {
                     CommentCount = comments.Count(),
-                    Comments = _mapper.Map<List<CommentDto>>(await comments
-                        .Where(c => c.Post.Id == request.Id)
-                        .Include(c => c.Author)
-                        .ThenInclude(a => a.Photos)
-                        .Include(c => c.Children)
-                        .Skip(request.Offset ?? 0)
-                        .Take(request.Limit ?? 3)
-                        .ToListAsync(cancellationToken)
-                    )
+                    Comments = commentsList.Where(cl => cl.ParentId == Guid.Empty).ToList()
                 };
             }
         }

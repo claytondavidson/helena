@@ -67,11 +67,12 @@ namespace API
             services.AddAuthorization(opt =>
             {
                 opt.AddPolicy("IsActivityHost", policy => { policy.Requirements.Add(new IsHostRequirement()); });
-
                 opt.AddPolicy("IsGroupOwner", policy => { policy.Requirements.Add(new IsGroupOwner()); });
+                opt.AddPolicy("IsCommentAuthor", policy => { policy.Requirements.Add(new IsCommentAuthor()); });
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
             services.AddTransient<IAuthorizationHandler, IsGroupOwnerHandler>();
+            services.AddTransient<IAuthorizationHandler, IsCommentAuthorHandler>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

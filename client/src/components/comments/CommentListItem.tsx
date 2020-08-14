@@ -12,7 +12,7 @@ const CommentListItem: React.FC<{
   const [openReplyBox, setOpenReplyBox] = useState(false);
 
   const nestedComments = (comment.children || []).map((comment) => {
-    return <CommentListItem key={comment.id} comment={comment} />;
+      return <CommentListItem key={comment.id} comment={comment}/>;
   });
 
   return (

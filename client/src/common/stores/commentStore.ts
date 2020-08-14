@@ -104,14 +104,14 @@ export default class CommentStore {
   };
 
   @action
-  createReply = async (commentId: string, body: string) => {
+  createReply = async (parentId: string, body: string) => {
     this.submitting = true;
     try {
-      const reply = await agent.Comments.reply(commentId, body);
+      const reply = await agent.Comments.reply(parentId, body);
       runInAction("creating reply to comment", () => {
         this.commentRegistry.set(reply.id, reply);
-        const comment = this.getComment(commentId);
-        comment.children.push(reply);
+        const parent = this.getComment(parentId);
+        parent.children.push(reply);
         this.submitting = false;
       });
     } catch (error) {
