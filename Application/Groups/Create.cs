@@ -19,7 +19,6 @@ namespace Application.Groups
             public string Description { get; set; }
             public string Category { get; set; }
             public DateTime DateCreated { get; set; }
-            public string CoverPhoto { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -30,7 +29,6 @@ namespace Application.Groups
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.Category).NotEmpty();
                 RuleFor(x => x.DateCreated).NotEmpty();
-                RuleFor(x => x.CoverPhoto).NotEmpty();
             }
         }
 
@@ -53,8 +51,7 @@ namespace Application.Groups
                     Title = request.Title,
                     Description = request.Description,
                     Category = request.Category,
-                    DateCreated = request.DateCreated,
-                    CoverPhoto = request.CoverPhoto
+                    DateCreated = request.DateCreated
                 };
 
                 await _context.Groups.AddAsync(group, cancellationToken);

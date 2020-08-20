@@ -101,7 +101,8 @@ namespace API
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
-            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddScoped<IPhotoAccessor, UserPhotoAccessor>();
+            services.AddScoped<IPhotoAccessor, GroupPhotoAccessor>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
         }
 

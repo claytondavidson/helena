@@ -59,7 +59,7 @@ namespace Application.Comments
                 var commentsList = _mapper.Map<List<CommentDto>>(await comments
                     .Where(c => c.Post.Id == request.Id)
                     .Include(c => c.Author)
-                    .ThenInclude(a => a.Photos)
+                    .ThenInclude(a => a.UserPhotos)
                     .Include(c => c.Children)
                     .Skip(request.Offset ?? 0)
                     .Take(request.Limit ?? 3)

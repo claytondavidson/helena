@@ -10,7 +10,7 @@ namespace Domain
         public string Description { get; set; }
         public string Category { get; set; }
         public DateTime DateCreated { get; set; }
-        public string CoverPhoto { get; set; }
+        public Photo CoverPhoto { get; set; }
         public ICollection<GroupMember> GroupMembers { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<Activity> Activities { get; set; }

@@ -17,7 +17,6 @@ namespace Application.Groups
             public string Description { get; set; }
             public string Category { get; set; }
             public DateTime? DateCreated { get; set; }
-            public string CoverPhoto { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -38,7 +37,6 @@ namespace Application.Groups
                 group.Title = request.Title ?? group.Title;
                 group.Description = request.Description ?? group.Description;
                 group.Category = request.Category ?? group.Category;
-                group.CoverPhoto = request.CoverPhoto ?? group.CoverPhoto;
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 

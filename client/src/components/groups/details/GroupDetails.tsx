@@ -22,7 +22,7 @@ const GroupDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadGroup, match.params.id]);
 
   if (group == null) {
-    return <Fragment></Fragment>;
+    return <Fragment/>
   }
 
   return (

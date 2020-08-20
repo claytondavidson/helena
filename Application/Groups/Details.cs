@@ -32,6 +32,7 @@ namespace Application.Groups
             public async Task<GroupDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var group = await _context.Groups
+                    .Include(g => g.CoverPhoto)
                     .Include(g => g.GroupMembers)
                     .ThenInclude(gm => gm.AppUser)
                     .FirstOrDefaultAsync(g => g.Id == request.Id, cancellationToken);

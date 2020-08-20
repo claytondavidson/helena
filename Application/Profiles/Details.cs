@@ -25,15 +25,15 @@ namespace Application.Profiles
 
             public async Task<Profile> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.Include(u => u.Photos)
+                var user = await _context.Users.Include(u => u.UserPhotos)
                     .SingleOrDefaultAsync(x => x.UserName == request.Username, cancellationToken);
 
                 return new Profile
                 {
                     DisplayName = user.DisplayName,
                     Username = user.UserName,
-                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-                    Photos = user.Photos,
+                    Image = user.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url,
+                    UserPhotos = user.UserPhotos,
                     Bio = user.Bio
                 };
             }

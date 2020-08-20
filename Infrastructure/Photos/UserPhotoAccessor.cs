@@ -8,11 +8,11 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Photos
 {
-    public class PhotoAccessor : IPhotoAccessor
+    public class UserPhotoAccessor : IPhotoAccessor
     {
         private readonly Cloudinary _cloudinary;
 
-        public PhotoAccessor(IOptions<CloudinarySettings> config)
+        public UserPhotoAccessor(IOptions<CloudinarySettings> config)
         {
             var acc = new Account
             (

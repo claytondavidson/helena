@@ -47,7 +47,7 @@ namespace Application.Comments
                     .Include(c => c.Children)
                     .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
-                var user = await _context.Users.Include(u => u.Photos).SingleOrDefaultAsync(x =>
+                var user = await _context.Users.Include(u => u.UserPhotos).SingleOrDefaultAsync(x =>
                     x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
                 var post = comment.Post;

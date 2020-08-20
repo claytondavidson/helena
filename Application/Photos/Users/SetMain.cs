@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Photos
+namespace Application.Photos.Users
 {
     public class SetMain
     {
@@ -32,19 +32,19 @@ namespace Application.Photos
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users
-                    .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername());
+                    .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
-                var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
+                var photo = user.UserPhotos.FirstOrDefault(x => x.Id == request.Id);
 
                 if (photo == null) throw new RestException(HttpStatusCode.NotFound, new {Photo = "Not found"});
 
-                var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+                var currentMain = user.UserPhotos.FirstOrDefault(x => x.IsMain);
 
                 if (currentMain != null) currentMain.IsMain = false;
 
                 photo.IsMain = true;
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 

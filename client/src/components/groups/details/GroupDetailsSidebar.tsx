@@ -8,9 +8,9 @@ const GroupDetailsSidebar: React.FC<{ group: IGroup }> = ({ group }) => {
   return (
     <Fragment>
       <Segment clearing>
-        <Header content={"About Group"} size={"small"} />
+        <Header content={"About"} size={"small"} />
         <Item.Group>
-          <Item>{group.description}</Item>
+          <Item content={group.description} />
           <Item>
             {group.members.length === 1
               ? `${group.members.length} member`
@@ -18,15 +18,11 @@ const GroupDetailsSidebar: React.FC<{ group: IGroup }> = ({ group }) => {
           </Item>
           <Item>{`Created ${format(group.dateCreated, "MMM dd, yyyy")}`}</Item>
         </Item.Group>
-        <Button fluid positive>
-          Create Post
-        </Button>
+        <Button fluid positive content="Create Post" />
       </Segment>
       <Segment clearing>
         <Header content={"Upcoming Events"} size={"small"} />
-        <Button fluid positive>
-          Create an Event
-        </Button>
+        <Button fluid positive content="Create an Event" />
       </Segment>
     </Fragment>
   );

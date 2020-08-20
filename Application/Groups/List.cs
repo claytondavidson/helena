@@ -48,6 +48,7 @@ namespace Application.Groups
                 {
                     GroupCount = groups.Count(),
                     Groups = _mapper.Map<List<GroupDto>>(await groups
+                        .Include(g => g.CoverPhoto)
                         .Include(g => g.GroupMembers)
                         .ThenInclude(g => g.AppUser)
                         .Skip(request.Offset ?? 0)

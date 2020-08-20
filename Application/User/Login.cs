@@ -46,7 +46,7 @@ namespace Application.User
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.Users
-                    .Include(u => u.Photos)
+                    .Include(u => u.UserPhotos)
                     .SingleOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
 
                 if (user == null) throw new RestException(HttpStatusCode.Unauthorized);
@@ -61,7 +61,7 @@ namespace Application.User
                         DisplayName = user.DisplayName,
                         Token = _jwtGenerator.CreateToken(user),
                         Username = user.UserName,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                        Image = user.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url
                     };
 
                 throw new RestException(HttpStatusCode.Unauthorized);

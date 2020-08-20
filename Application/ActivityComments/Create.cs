@@ -38,7 +38,7 @@ namespace Application.ActivityComments
 
                 if (activity == null) throw new RestException(HttpStatusCode.NotFound, new {Activity = "Not found"});
 
-                var user = await _context.Users.Include(u => u.Photos).FirstOrDefaultAsync(
+                var user = await _context.Users.Include(u => u.UserPhotos).FirstOrDefaultAsync(
                     x => x.UserName == request.Username,
                     cancellationToken);
 

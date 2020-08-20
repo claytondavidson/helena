@@ -15,7 +15,7 @@ namespace Persistence
         public DbSet<GroupMember> GroupMembers { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Photo> Photos { get; set; }
+        public DbSet<UserPhoto> UserPhotos { get; set; }
         public DbSet<ActivityComment> ActivityComments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -59,7 +59,7 @@ namespace Persistence
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<AppUser>()
-                .HasMany(p => p.Photos)
+                .HasMany(p => p.UserPhotos)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }

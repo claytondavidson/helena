@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Application.Groups;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,21 @@ namespace API.Controllers
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {
             return await Mediator.Send(new Delete.Command {Id = id});
+        }
+        
+        [HttpPost("{id}/cover")]
+        [Authorize(Policy = "IsGroupOwner")]
+        public async Task<ActionResult<Photo>> AddPhoto([FromForm] AddPhoto.Command command, Guid id)
+        {
+            command.Id = id;
+            return await Mediator.Send(command);
+        }
+        
+        [HttpDelete("{id}/cover")]
+        [Authorize(Policy = "IsGroupOwner")]
+        public async Task<ActionResult<Unit>> RemovePhoto(Guid id)
+        {
+            return await Mediator.Send(new RemovePhoto.Command {Id = id});
         }
     }
 }

@@ -12,12 +12,13 @@ export interface IGroup {
   description: string;
   category: string;
   dateCreated: Date;
-  members: IGroupMembers[];
+  coverPhoto?: string;
+  members: IGroupMember[];
   posts: IPost[];
   events: IActivity[];
 }
 
-export interface IGroupMembers {
+export interface IGroupMember {
   username: string;
   displayName: string;
   image: string;
