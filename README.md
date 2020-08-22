@@ -16,6 +16,8 @@ Helena is a social media website that is based around groups, events, and having
 # Screenshots
 ![Image of post/comments system](https://i.imgur.com/HVEUUe4.png)
 
+![Image of an example group](https://i.imgur.com/vPrNKR3.png)
+
 # Current Objectives
 
 * Add support for private messaging
