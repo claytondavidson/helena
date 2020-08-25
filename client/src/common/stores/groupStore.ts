@@ -3,7 +3,7 @@ import { action, computed, observable, runInAction } from "mobx";
 import { IGroup } from "../../common/models/group";
 import agent from "../api/agent";
 
-const LIMIT = 5;
+const LIMIT = 20;
 
 export default class GroupStore {
   rootStore: RootStore;
@@ -57,6 +57,11 @@ export default class GroupStore {
         return groups;
       }, {} as { [key: string]: IGroup[] })
     );
+  }
+  
+  @action
+  clearGroup = () => {
+    this.group = null;
   }
 
   @action

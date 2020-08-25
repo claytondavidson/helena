@@ -44,8 +44,9 @@ namespace Application.Comments
             {
                 var post = await _context.Posts.FindAsync(request.Id);
 
-                var user = await _context.Users.Include(u => u.UserPhotos).SingleOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
+                var user = await _context.Users
+                    .Include(u => u.UserPhotos)
+                    .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
                 var comment = new Comment
                 {

@@ -3,7 +3,7 @@ import { action, computed, observable, runInAction } from "mobx";
 import { IPost } from "../models/post";
 import agent from "../api/agent";
 
-const LIMIT = 5;
+const LIMIT = 20;
 
 export default class PostStore {
   rootStore: RootStore;
@@ -45,16 +45,18 @@ export default class PostStore {
   loadPosts = async (group_id: string) => {
     this.initialLoading = true;
     try {
-      const postsEnvelope = await agent.Posts.list(group_id, LIMIT, this.page);
-      const { posts, postCount } = postsEnvelope;
-      runInAction("loading posts", () => {
-        posts.forEach((post: IPost) => {
-          post.createdAt = new Date(post.createdAt);
-          this.postRegistry.set(post.id, post);
+      setTimeout(async () => {
+        const postsEnvelope = await agent.Posts.list(group_id, LIMIT, this.page);
+        const { posts, postCount } = postsEnvelope;
+        runInAction("loading posts", () => {
+          posts.forEach((post: IPost) => {
+            post.createdAt = new Date(post.createdAt);
+            this.postRegistry.set(post.id, post);
+          });
+          this.postCount = postCount;
+          this.initialLoading = false;
         });
-        this.postCount = postCount;
-        this.initialLoading = false;
-      });
+      }, 1000);
     } catch (error) {
       runInAction("loading posts error", () => {
         this.initialLoading = false;

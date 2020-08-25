@@ -34,7 +34,7 @@ const CommentListItem: React.FC<{
               Reply
             </Comment.Action>
             <Comment.Action>
-              <Icon name={"ellipsis horizontal"}></Icon>
+              <Icon name={"ellipsis horizontal"} />
             </Comment.Action>
           </Comment.Actions>
           {openReplyBox ? <ReplyToCommentBox comm={comment} /> : <Fragment />}

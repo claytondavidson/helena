@@ -1,4 +1,3 @@
-#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace Application.Comments
 
         public class Query : IRequest<CommentsEnvelope>
         {
-            public Query(int? limit, int? offset, string? sort)
+            public Query(int? limit, int? offset, string sort)
             {
                 Limit = limit;
                 Offset = offset;
@@ -32,7 +31,7 @@ namespace Application.Comments
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public Guid Id { get; set; }
-            public string? Sort { get; set; }
+            public string Sort { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, CommentsEnvelope>

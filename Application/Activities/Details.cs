@@ -34,7 +34,7 @@ namespace Application.Activities
                 var activity = await _context.Activities.Include(a => a.ActivityComments)
                     .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 
-                if (activity == null) throw new RestException(HttpStatusCode.NotFound, new {activity = "Not found"});
+                if (activity == null) throw new RestException(HttpStatusCode.NotFound, new {Activity = "Not found"});
 
                 var activityToReturn = _mapper.Map<Activity, ActivityDto>(activity);
 

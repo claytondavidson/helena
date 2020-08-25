@@ -10,6 +10,7 @@ export interface IPost {
   id: string;
   title: string;
   body: string;
+  votes: number;
   createdAt: Date;
   username: string;
   displayName: string;

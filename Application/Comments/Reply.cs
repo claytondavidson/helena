@@ -47,8 +47,9 @@ namespace Application.Comments
                     .Include(c => c.Children)
                     .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
-                var user = await _context.Users.Include(u => u.UserPhotos).SingleOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
+                var user = await _context.Users
+                    .Include(u => u.UserPhotos)
+                    .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
                 var post = comment.Post;
 
@@ -67,7 +68,7 @@ namespace Application.Comments
 
                 if (success) return _mapper.Map<CommentDto>(newComment);
 
-                throw new Exception("Problem saving post changes");
+                throw new Exception("Problem saving reply changes");
             }
         }
     }

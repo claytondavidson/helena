@@ -68,7 +68,7 @@ namespace Application.Activities
                 group.Activities.Add(activity);
 
                 var user = await _context.Users.SingleOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetCurrentUsername());
+                    x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
                 var attendee = new UserActivity
                 {
                     AppUser = user,
@@ -77,9 +77,9 @@ namespace Application.Activities
                     DateJoined = DateTime.Now
                 };
 
-                _context.UserActivities.Add(attendee);
+                await _context.UserActivities.AddAsync(attendee, cancellationToken);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 

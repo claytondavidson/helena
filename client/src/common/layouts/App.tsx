@@ -45,7 +45,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Fragment>
             <ToastContainer position={"bottom-right"} />
             <NavigationBar />
-            <Container style={{ marginTop: "7em" }}>
+            <Container fluid style={{ padding: "7em 2em 0 2em" }}>
               <Switch>
                 <PrivateRoute
                   exact

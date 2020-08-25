@@ -33,14 +33,15 @@ namespace Application.ActivityComments
 
             public async Task<ActivityCommentDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activity = await _context.Activities.Include(a => a.ActivityComments)
+                var activity = await _context.Activities
+                    .Include(a => a.ActivityComments)
                     .FirstOrDefaultAsync(a => a.Id == request.ActivityId, cancellationToken);
 
                 if (activity == null) throw new RestException(HttpStatusCode.NotFound, new {Activity = "Not found"});
 
-                var user = await _context.Users.Include(u => u.UserPhotos).FirstOrDefaultAsync(
-                    x => x.UserName == request.Username,
-                    cancellationToken);
+                var user = await _context.Users
+                    .Include(u => u.UserPhotos)
+                    .FirstOrDefaultAsync(x => x.UserName == request.Username, cancellationToken);
 
                 var activityComment = new ActivityComment
                 {

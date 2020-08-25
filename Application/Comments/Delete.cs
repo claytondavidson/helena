@@ -36,7 +36,7 @@ namespace Application.Comments
 
                 if (success) return Unit.Value;
 
-                throw new Exception("Problem saving activity changes");
+                throw new Exception("Problem saving comment changes");
             }
         }
     }

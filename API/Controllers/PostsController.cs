@@ -9,9 +9,9 @@ namespace API.Controllers
     public class PostsController : BaseController
     {
         [HttpGet("{id}/posts")]
-        public async Task<ActionResult<List.PostsEnvelope>> List(int? limit, int? offset, Guid id)
+        public async Task<ActionResult<List.PostsEnvelope>> List(int? limit, int? offset, string sort, Guid id)
         {
-            return await Mediator.Send(new List.Query(limit, offset) {Id = id});
+            return await Mediator.Send(new List.Query(limit, offset, sort) {Id = id});
         }
 
         [HttpGet("{id}")]

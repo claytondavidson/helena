@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -20,15 +21,17 @@ namespace Application.Posts
 
         public class Query : IRequest<PostsEnvelope>
         {
-            public Query(int? limit, int? offset)
+            public Query(int? limit, int? offset, string sort = "new")
             {
                 Limit = limit;
                 Offset = offset;
+                Sort = sort;
             }
 
             public int? Limit { get; set; }
             public int? Offset { get; set; }
             public Guid Id { get; set; }
+            public string Sort { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, PostsEnvelope>
@@ -44,7 +47,16 @@ namespace Application.Posts
 
             public async Task<PostsEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var posts = _context.Posts;
+                IQueryable<Post> posts = _context.Posts;
+                posts = request.Sort switch
+                {
+                    "best" => posts.OrderBy(p => p.CreatedAt),
+                    "hot" => posts.OrderBy(p => p.CreatedAt),
+                    "new" => posts.OrderBy(p => p.CreatedAt),
+                    "top" => posts.OrderBy(p => p.CreatedAt),
+                    "rising" => posts.OrderBy(p => p.CreatedAt),
+                    _ => posts
+                };
 
                 return new PostsEnvelope
                 {

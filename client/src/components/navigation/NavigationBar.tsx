@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import {
   Menu,
   Container,
-  Button,
   Dropdown,
   Image,
   Input,
@@ -16,7 +15,7 @@ const NavigationBar: React.FC = () => {
   const { user, logout } = rootStore.userStore;
   return (
     <Menu fixed={"top"} inverted>
-      <Container>
+      <Container fluid style={{padding: "0 2em 0 2em"}}>
         <Menu.Item header as={NavLink} exact to={"/"}>
           <img
             src={"/assets/logo.png"}
@@ -27,14 +26,6 @@ const NavigationBar: React.FC = () => {
         </Menu.Item>
         <Menu.Item name={"groups"} as={NavLink} to={"/groups"} />
         <Menu.Item name="events" as={NavLink} to={"/activities"} />
-        <Menu.Item>
-          <Button
-            as={NavLink}
-            to={"/create"}
-            positive
-            content={"Create an event"}
-          />
-        </Menu.Item>
         <Menu.Item position="right">
           <Input
             action={{ type: "submit", content: "Go" }}

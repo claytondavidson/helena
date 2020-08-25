@@ -22,7 +22,7 @@ const PostDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   }, [loadPost, match.params.id]);
 
   if (post == null) {
-    return <Fragment></Fragment>;
+    return <Fragment/>;
   }
 
   return (
@@ -33,7 +33,7 @@ const PostDetails: React.FC<RouteComponentProps<DetailParams>> = ({
           <CommentReplyBox post={post} />
           <CommentDashboard post_id={match.params.id} />
         </Grid.Column>
-        <Grid.Column width={6}></Grid.Column>
+        <Grid.Column width={6} />
       </Grid>
     </Fragment>
   );

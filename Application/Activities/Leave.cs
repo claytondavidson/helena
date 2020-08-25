@@ -37,11 +37,11 @@ namespace Application.Activities
                         new {Activity = "Could not find activity"});
 
                 var user = await _context.Users.SingleOrDefaultAsync(x =>
-                    x.UserName == _userAccessor.GetCurrentUsername());
+                    x.UserName == _userAccessor.GetCurrentUsername(), cancellationToken);
 
                 var attendance =
                     await _context.UserActivities.SingleOrDefaultAsync(x =>
-                        x.ActivityId == activity.Id && x.AppUserId == user.Id);
+                        x.ActivityId == activity.Id && x.AppUserId == user.Id, cancellationToken);
 
                 if (attendance == null) return Unit.Value;
 
@@ -51,7 +51,7 @@ namespace Application.Activities
 
                 _context.UserActivities.Remove(attendance);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (success) return Unit.Value;
 
