@@ -31,5 +31,5 @@ Helena is a social media website that is based around groups, events, and having
 
 ## Built With
 
-* [React](https://reactjs.org/) - Library for building user interfaces
+* [React.js](https://reactjs.org/) - Library for building user interfaces
 * [.NET Core](https://dotnet.microsoft.com/) - Platform for building applications
