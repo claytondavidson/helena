@@ -1,5 +1,3 @@
-Project halted due to school/work. I will be resuming when I have time.
-
 # Helena
 
 Helena is a social media website that is based around groups, events, and having discussions with other users.
